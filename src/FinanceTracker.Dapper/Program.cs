@@ -58,6 +58,7 @@ public class Program
         var accountRepository = new AccountRepository(connectionFactory);
         var transactionRepository = new TransactionRepository(connectionFactory);
         var budgetRepository = new BudgetRepository(connectionFactory);
+        var reportsRepository = new ReportsRepository(connectionFactory);
 
         // Create menu handlers
         var userMenu = new UserMenu(userRepository);
@@ -65,6 +66,7 @@ public class Program
         var accountMenu = new AccountMenu(accountRepository, userRepository);
         var transactionMenu = new TransactionMenu(transactionRepository, accountRepository, categoryRepository);
         var budgetMenu = new BudgetMenu(budgetRepository, userRepository, categoryRepository);
+        var reportsMenu = new ReportsMenu(reportsRepository, userRepository);
 
         // Main menu loop
         Console.Clear();
@@ -85,6 +87,7 @@ public class Program
                 "Manage Accounts",
                 "Manage Transactions",
                 "Manage Budgets",
+                "Reports & Analytics",
                 "Test Database Connection",
                 "Exit"
             });
@@ -109,9 +112,12 @@ public class Program
                         await budgetMenu.ShowAsync();
                         break;
                     case 6:
-                        await TestConnectionAsync(connectionFactory);
+                        await reportsMenu.ShowAsync();
                         break;
                     case 7:
+                        await TestConnectionAsync(connectionFactory);
+                        break;
+                    case 8:
                         Console.WriteLine("Goodbye!");
                         return;
                     default:
