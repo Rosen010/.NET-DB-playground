@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using FinanceTracker.Dapper.Data;
 using FinanceTracker.Dapper.Menu;
 using FinanceTracker.Dapper.Repositories;
+using FinanceTracker.Database;
 
 namespace FinanceTracker.Dapper;
 
@@ -49,6 +50,8 @@ public class Program
             Console.ResetColor();
             return;
         }
+
+        MigrationRunner.MigrateUp(connectionString);
 
         // Create connection factory and repositories
         var connectionFactory = new DbConnectionFactory(connectionString);

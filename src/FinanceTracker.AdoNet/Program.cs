@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using FinanceTracker.AdoNet.Data;
 using FinanceTracker.AdoNet.Menu;
 using FinanceTracker.AdoNet.Repositories;
+using FinanceTracker.Database;
 
 namespace FinanceTracker.AdoNet;
 
@@ -44,7 +45,7 @@ public class Program
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-
+        
         if (string.IsNullOrEmpty(connectionString))
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -53,6 +54,7 @@ public class Program
             return;
         }
 
+        MigrationRunner.MigrateUp(connectionString);
         var connectionFactory = new DbConnectionFactory(connectionString);
 
         // Create repositories

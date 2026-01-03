@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using FinanceTracker.EFCore.Data;
 using FinanceTracker.EFCore.Menu;
 using FinanceTracker.EFCore.Services;
+using FinanceTracker.Database;
 
 namespace FinanceTracker.EFCore;
 
@@ -50,9 +51,11 @@ public class Program
             return;
         }
 
+        MigrationRunner.MigrateUp(connectionString);
+
         // Configure DbContext options
         var optionsBuilder = new DbContextOptionsBuilder<FinanceDbContext>();
-        optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder.UseNpgsql(connectionString);    
 
         // Create DbContext and services
         await using var context = new FinanceDbContext(optionsBuilder.Options);
